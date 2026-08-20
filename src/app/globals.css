@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-void: #030303;
+    --bg-surface: #0a0a0c;
+    --bg-elevated: #111115;
+    --text-pure: #f5f5f7;
+    --text-dim: #94949e;
+    --text-ghost: #52525b;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.22);
+    --accent-cyan: #38bdf8;
+    --accent-indigo: #818cf8;
+    --accent-emerald: #34d399;
+  }
+}
+
+html {
+  scroll-behavior: auto; /* Handled by Lenis for smooth inertia */
+  background-color: var(--bg-void);
+  color: var(--text-pure);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
+  html {
+    cursor: none; /* Hide default cursor on desktop when custom cursor is active */
+  }
+}
+
+@media (max-width: 1023px) {
+  html {
+    cursor: auto;
+  }
+}
+
+@media (pointer: coarse) {
+  html {
+    cursor: auto;
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-void);
+  color: var(--text-pure);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Film Grain Overlay */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Typography Hierarchy */
+.font-display {
+  font-family: var(--font-space), var(--font-inter), sans-serif;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.text-meta {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Card 3D Tilt & Lighting */
+.interactive-card {
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.interactive-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px -10px rgba(56, 189, 248, 0.08);
+}
+
+/* Custom Cursor Styling */
+.custom-cursor-dot {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease, transform 0.1s ease-out;
+}
+
+.custom-cursor-ring {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease;
+}
+
+/* Clean Focus States - Remove intrusive selection borders */
+input, textarea, select, button, a {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus, textarea:focus, select:focus, button:focus,
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Lenis CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030303;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #18181b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #27272a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
