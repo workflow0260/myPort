@@ -11,7 +11,7 @@ export const CustomCursor: React.FC = () => {
   const [isTouch, setIsTouch] = useState(true);
 
   useEffect(() => {
-    // Check if device supports fine pointer (mouse)
+    // Disable on non-fine pointer or prefers-reduced-motion
     const mediaQuery = window.matchMedia("(pointer: fine)");
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -31,16 +31,16 @@ export const CustomCursor: React.FC = () => {
       setPosition({ x: e.clientX, y: e.clientY });
       setIsVisible(true);
 
-      // Detect cursor attributes on hovered element
       const target = e.target as HTMLElement | null;
       const interactiveEl = target?.closest("[data-cursor]") as HTMLElement | null;
-      const buttonOrLink = target?.closest("button, a, input, textarea, [role='button']");
+      const buttonOrLink = target?.closest("button, a, [role='button']");
 
       if (interactiveEl) {
-        setCursorText(interactiveEl.getAttribute("data-cursor") || "");
+        const text = interactiveEl.getAttribute("data-cursor") || "";
+        setCursorText(text);
         setIsHovering(true);
       } else if (buttonOrLink) {
-        setCursorText("");
+        setCursorText("→");
         setIsHovering(true);
       } else {
         setCursorText("");
@@ -52,13 +52,13 @@ export const CustomCursor: React.FC = () => {
 
     const animateTrailing = () => {
       setTrailing((prev) => ({
-        x: prev.x + (targetX - prev.x) * 0.2,
-        y: prev.y + (targetY - prev.y) * 0.2,
+        x: prev.x + (targetX - prev.x) * 0.22,
+        y: prev.y + (targetY - prev.y) * 0.22,
       }));
       animationFrameId = requestAnimationFrame(animateTrailing);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
     animationFrameId = requestAnimationFrame(animateTrailing);
 
@@ -71,45 +71,40 @@ export const CustomCursor: React.FC = () => {
 
   if (isTouch || !isVisible) return null;
 
-  const isViewMode = cursorText === "VIEW";
+  const hasText = cursorText.length > 0;
+  const isViewMode = cursorText === "VIEW" || cursorText === "EXPLORE" || cursorText === "RESUME";
 
   return (
     <>
-      {/* Center Precision Dot */}
+      {/* Center Precision Dot - Highest Z-Index so never hidden behind modals */}
       <div
-        className="custom-cursor-dot w-1.5 h-1.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+        className="custom-cursor-dot w-2 h-2 bg-[#173753] pointer-events-none transition-opacity duration-150"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
-          opacity: isViewMode ? 0 : 1,
+          opacity: hasText ? 0 : 1,
+          zIndex: 1000000,
         }}
       />
 
-      {/* Trailing Fluid Ring */}
+      {/* Trailing Fluid Ring / Interactive Badge */}
       <div
-        className="custom-cursor-ring"
+        className="custom-cursor-ring pointer-events-none"
         style={{
           left: `${trailing.x}px`,
           top: `${trailing.y}px`,
-          width: isViewMode ? "72px" : isHovering ? "44px" : "28px",
-          height: isViewMode ? "72px" : isHovering ? "44px" : "28px",
-          backgroundColor: isViewMode
-            ? "rgba(255, 255, 255, 0.95)"
-            : isHovering
-            ? "rgba(255, 255, 255, 0.08)"
-            : "transparent",
-          borderColor: isViewMode
-            ? "transparent"
-            : isHovering
-            ? "rgba(255, 255, 255, 0.4)"
-            : "rgba(255, 255, 255, 0.2)",
+          width: isViewMode ? "68px" : hasText ? "46px" : isHovering ? "38px" : "24px",
+          height: isViewMode ? "68px" : hasText ? "46px" : isHovering ? "38px" : "24px",
+          backgroundColor: hasText ? "#173753" : isHovering ? "rgba(23, 55, 83, 0.08)" : "transparent",
+          borderColor: hasText ? "#173753" : isHovering ? "#173753" : "rgba(23, 55, 83, 0.25)",
           borderWidth: "1px",
           borderStyle: "solid",
+          zIndex: 999999,
         }}
       >
-        {isViewMode && (
-          <span className="text-[10px] font-bold font-mono tracking-widest text-black uppercase">
-            VIEW
+        {hasText && (
+          <span className="text-[10px] font-bold font-mono tracking-widest text-white uppercase select-none">
+            {cursorText}
           </span>
         )}
       </div>

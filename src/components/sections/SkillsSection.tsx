@@ -2,111 +2,134 @@
 
 import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
-import { Smartphone, Server, Database, Wrench } from "lucide-react";
+import { Layers, ShieldCheck, Wrench, Cpu } from "lucide-react";
 
 export const SkillsSection: React.FC = () => {
-  const { skills } = PORTFOLIO_DATA;
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-
-  const groupIcons: Record<string, React.ReactNode> = {
-    MOBILE: <Smartphone className="w-4 h-4 text-cyan-400" />,
-    BACKEND: <Server className="w-4 h-4 text-indigo-400" />,
-    DATABASE: <Database className="w-4 h-4 text-emerald-400" />,
-    TOOLS: <Wrench className="w-4 h-4 text-amber-400" />,
-  };
-
-  const groupColors: Record<string, string> = {
-    MOBILE: "text-cyan-400 border-cyan-400/20 bg-cyan-400/5",
-    BACKEND: "text-indigo-400 border-indigo-400/20 bg-indigo-400/5",
-    DATABASE: "text-emerald-400 border-emerald-400/20 bg-emerald-400/5",
-    TOOLS: "text-amber-400 border-amber-400/20 bg-amber-400/5",
-  };
+  const { stack } = PORTFOLIO_DATA;
+  const [activeChip, setActiveChip] = useState<string | null>("FLUTTER");
 
   return (
-    <section id="skills" className="py-32 px-6 sm:px-12 relative bg-[#030303] border-t border-white/10">
-      <div className="max-w-7xl mx-auto">
+    <section id="stack" className="w-full py-24 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)]">
+      <div className="max-w-[1200px] mx-auto space-y-12">
         {/* Section Header */}
-        <div className="mb-20">
-          <span className="text-meta text-ghost mb-3 block tracking-[0.3em]">
-            TECHNICAL EXPERTISE // CAPABILITIES
-          </span>
-          <h2 className="text-4xl sm:text-6xl md:text-7xl font-black text-white font-display tracking-tight uppercase mb-4">
-            Technical Stack
-          </h2>
-          <p className="text-sm sm:text-base text-dim max-w-2xl leading-relaxed">
-            Real technologies utilized across production mobile and backend architectures. Contextual descriptions and project associations without arbitrary percentage bars.
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[rgba(17,17,16,0.08)] pb-8">
+          <div>
+            <p className="eyebrow mb-3">// 03 • TECHNICAL STACK</p>
+            <h2 className="text-3xl sm:text-5xl font-display font-normal text-[#111110] leading-tight">
+              Tools and technologies{" "}
+              <span className="text-[#173753] font-medium">we rely on.</span>
+            </h2>
+          </div>
+
+          <p className="max-w-md text-sm text-[#5a5a62] leading-relaxed">
+            A battle-tested mobile and backend toolkit applied across production Flutter, Android SDK, and scalable cloud services.
           </p>
         </div>
 
-        {/* 4 Core Groups Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {skills.map((category) => {
-            const icon = groupIcons[category.title] || <Smartphone className="w-4 h-4" />;
-            const colorClass = groupColors[category.title] || "text-white border-white/20 bg-white/5";
+        {/* Primary Interactive Technology Chips */}
+        <div className="card-engineered rounded-2xl p-8 space-y-6">
+          <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2">
+              <span className="status-dot" />
+              <span className="text-[#8b8b94] font-mono">Primary Core</span>
+            </div>
+            <span className="font-mono text-[11px] text-[#173753] font-semibold">
+              FLUTTER • KOTLIN • STATE FLOW
+            </span>
+          </div>
 
-            return (
-              <div
-                key={category.title}
-                className="p-8 sm:p-10 rounded-3xl bg-[#08080a] border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  {/* Category Header */}
-                  <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2.5 rounded-xl border ${colorClass}`}>
-                        {icon}
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-white font-display tracking-tight">
-                          {category.title}
-                        </h3>
-                        <span className="text-meta text-ghost text-[10px]">
-                          PRODUCTION CAPABILITIES
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+          <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            {stack.primary.map((tech) => {
+              const isActive = activeChip === tech;
+              return (
+                <button
+                  key={tech}
+                  onClick={() => setActiveChip(tech)}
+                  onMouseEnter={() => setActiveChip(tech)}
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-mono font-medium transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? "bg-[#173753] text-white shadow-md -translate-y-0.5"
+                      : "bg-[#f4f5f6] text-[#27272a] hover:bg-[#173753]/10 hover:text-[#173753] hover:-translate-y-0.5"
+                  }`}
+                  data-cursor="TECH"
+                >
+                  {tech}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-                  <p className="text-xs text-dim mb-6 leading-relaxed">
-                    {category.description}
-                  </p>
+        {/* Engineered Detail Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Architecture */}
+          <div className="card-engineered rounded-2xl p-7 space-y-5">
+            <div className="flex items-center gap-2 text-xs">
+              <span className="status-dot" />
+              <span className="font-mono text-[#173753] font-semibold">
+                Architecture &amp; Patterns
+              </span>
+            </div>
+            <p className="text-xs text-[#5a5a62] leading-relaxed">
+              Unidirectional data flows and modular layer boundaries to ensure testability and maintenance.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {stack.architecture.map((item) => (
+                <span
+                  key={item}
+                  className="px-2.5 py-1 rounded-md bg-[#f8f9fa] border border-[rgba(17,17,16,0.06)] text-[11px] font-mono text-[#111110]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
 
-                  {/* Skill Items List */}
-                  <div className="space-y-3">
-                    {category.items.map((skill) => {
-                      const isHovered = hoveredSkill === skill.name;
-                      return (
-                        <div
-                          key={skill.name}
-                          onMouseEnter={() => setHoveredSkill(skill.name)}
-                          onMouseLeave={() => setHoveredSkill(null)}
-                          className={`p-4 rounded-2xl border transition-all duration-200 cursor-default ${
-                            isHovered
-                              ? "bg-white/[0.06] border-white/25 shadow-md"
-                              : "bg-white/[0.02] border-white/5 hover:border-white/15"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <h4 className="text-sm font-bold text-white tracking-tight">
-                              {skill.name}
-                            </h4>
-                            {skill.projectAssociation && (
-                              <span className="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-full">
-                                {skill.projectAssociation}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-xs text-dim leading-relaxed">
-                            {skill.description}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {/* Testing & APIs */}
+          <div className="card-engineered rounded-2xl p-7 space-y-5">
+            <div className="flex items-center gap-2 text-xs">
+              <span className="status-dot" />
+              <span className="font-mono text-[#173753] font-semibold">
+                Testing &amp; Real-Time
+              </span>
+            </div>
+            <p className="text-xs text-[#5a5a62] leading-relaxed">
+              Automated tests and WebSocket/Firebase sync pipelines ensuring rock-solid feature reliability.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {[...stack.testing, ...stack.additional].map((item) => (
+                <span
+                  key={item}
+                  className="px-2.5 py-1 rounded-md bg-[#f8f9fa] border border-[rgba(17,17,16,0.06)] text-[11px] font-mono text-[#111110]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Tooling */}
+          <div className="card-engineered rounded-2xl p-7 space-y-5">
+            <div className="flex items-center gap-2 text-xs">
+              <span className="status-dot" />
+              <span className="font-mono text-[#173753] font-semibold">
+                Workflow &amp; IDEs
+              </span>
+            </div>
+            <p className="text-xs text-[#5a5a62] leading-relaxed">
+              Professional version control, release orchestration, and native build toolchains.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {stack.tools.map((item) => (
+                <span
+                  key={item}
+                  className="px-2.5 py-1 rounded-md bg-[#f8f9fa] border border-[rgba(17,17,16,0.06)] text-[11px] font-mono text-[#111110]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

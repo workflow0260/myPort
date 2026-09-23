@@ -5,17 +5,15 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { CinematicLoader } from "@/components/ui/CinematicLoader";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { PageAtmosphere } from "@/components/ui/PageAtmosphere";
 import { ResumeModal } from "@/components/ui/ResumeModal";
 import { CinematicNavbar } from "@/components/sections/CinematicNavbar";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { MobileStorySection } from "@/components/sections/MobileStorySection";
 import { ProjectsShowcase } from "@/components/sections/ProjectsShowcase";
-import { ArchitectureFlowSection } from "@/components/sections/ArchitectureFlowSection";
-import { SkillsSection } from "@/components/sections/SkillsSection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
-import { CodeSection } from "@/components/sections/CodeSection";
+import { SkillsSection } from "@/components/sections/SkillsSection";
+import { ArchitectureFlowSection } from "@/components/sections/ArchitectureFlowSection";
+import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function Home() {
@@ -24,48 +22,45 @@ export default function Home() {
 
   return (
     <SmoothScrollProvider>
-      {/* Film Grain Ambient Overlay */}
-      <div className="film-grain" aria-hidden="true" />
+      {/* Paper Grain Background Texture */}
+      <div className="paper-grain" aria-hidden="true" />
 
-      {/* Desktop Custom Cursor */}
+      {/* Dynamic Ambient Lighting & Mouse Spotlight */}
+      <PageAtmosphere />
+
+      {/* Desktop Precision Cursor */}
       <CustomCursor />
 
-      {/* Scroll Section Progress Indicator */}
+      {/* Minimal Top Scroll Progress */}
       <ScrollProgress />
 
-      {/* Cinematic Booting Sequence */}
+      {/* Fast Minimalist Boot Loader */}
       {!loadingComplete && (
         <CinematicLoader onComplete={() => setLoadingComplete(true)} />
       )}
 
-      {/* Resume Download / Request Modal */}
+      {/* Interactive Resume Modal */}
       <ResumeModal
         isOpen={resumeModalOpen}
         onClose={() => setResumeModalOpen(false)}
       />
 
-      <div
-        id="hero"
-        className="relative min-h-screen bg-[#030303] text-[#f5f5f7] flex flex-col selection:bg-white selection:text-black"
-      >
-        {/* Navigation */}
+      <div className="relative min-h-screen flex flex-col z-10">
+        {/* Floating Pill Navigation */}
         <CinematicNavbar onOpenResumeModal={() => setResumeModalOpen(true)} />
 
-        {/* Storytelling Content Hierarchy */}
+        {/* Content Hierarchy */}
         <main className="flex-grow">
           <HeroSection onOpenResumeModal={() => setResumeModalOpen(true)} />
-          <MobileStorySection />
           <ProjectsShowcase />
-          <ArchitectureFlowSection />
-          <SkillsSection />
-          <AboutSection />
-          <ServicesSection />
           <ExperienceSection />
-          <CodeSection />
+          <SkillsSection />
+          <ArchitectureFlowSection />
+          <AboutSection />
         </main>
 
         {/* Contact & Footer */}
-        <ContactSection />
+        <ContactSection onOpenResumeModal={() => setResumeModalOpen(true)} />
       </div>
     </SmoothScrollProvider>
   );

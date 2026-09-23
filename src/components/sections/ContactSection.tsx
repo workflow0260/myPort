@@ -1,323 +1,207 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowUpRight, Check, Loader2, Mail, MapPin, Code2, Globe, Sparkles, Phone } from "lucide-react";
+import { Mail, Phone, ArrowUpRight, Copy, Check, FileText } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
-import { ContactNode3D } from "../canvas/ContactNode3D";
+import { Reveal } from "@/components/ui/Reveal";
 
-const projectTypes = [
-  "Mobile App",
-  "Flutter",
-  "Kotlin / Android",
-  "Backend / API",
-  "Full Stack",
-  "Other",
-];
+interface ContactSectionProps {
+  onOpenResumeModal?: () => void;
+}
 
-export const ContactSection: React.FC = () => {
+const GithubIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+  </svg>
+);
+
+const LinkedinIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+  </svg>
+);
+
+export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModal }) => {
   const { personal } = PORTFOLIO_DATA;
-  const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    projectType: "Mobile App",
-    message: "",
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
-  const validate = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!formData.email.trim()) newErrors.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = "Enter a valid email address.";
-    if (!formData.message.trim()) newErrors.message = "Message is required.";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setFormState("loading");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) throw new Error("Failed to send");
-      setFormState("success");
-    } catch {
-      setFormState("error");
+  const copyToClipboard = (text: string, type: "email" | "phone") => {
+    navigator.clipboard.writeText(text);
+    if (type === "email") {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } else {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
     }
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
-  };
-
   return (
-    <footer id="contact" className="py-32 px-6 sm:px-12 relative bg-[#030303] border-t border-white/10 select-none">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Tag */}
-        <div className="text-meta text-ghost mb-4 tracking-[0.3em]">
-          INITIATE CONTACT // COMMISSION
-        </div>
-
-        {/* Heading */}
-        <div className="mb-20">
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white font-display tracking-tight uppercase leading-[0.9] max-w-4xl">
-            Let&apos;s Build
-            <br />
-            <span className="text-white/80">Something.</span>
-          </h2>
-        </div>
-
-        {/* Two-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 pb-24 border-b border-white/10 items-start">
-          {/* Left Column (5 Cols) */}
-          <div className="lg:col-span-5 space-y-8">
-            <p className="text-sm sm:text-base text-dim leading-relaxed">
-              Available for full-time software engineering roles, mobile contract commissions, and backend API architecture consulting.
-            </p>
-
-            {/* Interactive 3D Technical Node Element */}
-            <div className="hidden sm:block">
-              <ContactNode3D />
+    <footer id="contact" className="relative z-10 border-t border-[rgba(17,17,16,0.08)] bg-[#f4f5f6] text-[#111110]">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-12 pt-20 pb-14 space-y-16">
+        {/* Big Snowbros Style Conversation Callout */}
+        <Reveal>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[rgba(17,17,16,0.08)] pb-16">
+            <div className="space-y-3 max-w-2xl">
+              <p className="eyebrow">// 06 • CONTACT</p>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-normal text-[#111110] leading-[1.05]">
+                Building something worth{" "}
+                <span className="text-[#173753] font-medium underline decoration-[rgba(23,55,83,0.25)] underline-offset-8">
+                  engineering well?
+                </span>
+              </h2>
             </div>
 
-            {/* Direct Channels */}
-            <div className="space-y-4 pt-4 border-t border-white/10 text-meta">
-              <div>
-                <span className="text-ghost block mb-1">EMAIL ADDRESS</span>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="text-base text-white hover:text-cyan-400 transition font-mono"
-                >
-                  {personal.email}
-                </a>
-              </div>
-
-              {personal.phone && (
-                <div>
-                  <span className="text-ghost block mb-1">PHONE // WHATSAPP</span>
-                  <a
-                    href={`tel:${personal.phone.replace(/\s+/g, "")}`}
-                    className="text-base text-white hover:text-cyan-400 transition font-mono"
-                  >
-                    {personal.phone}
-                  </a>
-                </div>
-              )}
-
-              <div className="flex items-center gap-4 pt-2">
-                <a
-                  href={personal.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 hover:text-white hover:border-white/30 transition"
-                  aria-label="GitHub Profile"
-                >
-                  <Code2 className="w-5 h-5 text-cyan-400" />
-                </a>
-                <a
-                  href={personal.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 hover:text-white hover:border-white/30 transition"
-                  aria-label="LinkedIn Profile"
-                >
-                  <Globe className="w-5 h-5 text-indigo-400" />
-                </a>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="p-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 hover:text-white hover:border-white/30 transition"
-                  aria-label="Email directly"
-                >
-                  <Mail className="w-5 h-5 text-emerald-400" />
-                </a>
-                {personal.phone && (
-                  <a
-                    href={`tel:${personal.phone.replace(/\s+/g, "")}`}
-                    className="p-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 hover:text-white hover:border-white/30 transition"
-                    aria-label="Call directly"
-                  >
-                    <Phone className="w-5 h-5 text-cyan-400" />
-                  </a>
-                )}
-              </div>
-            </div>
+            <a
+              href={`mailto:${personal.email}`}
+              className="group inline-flex items-center gap-2 text-lg sm:text-xl font-medium text-[#173753] hover:text-[#0f2538] transition-colors shrink-0 cursor-pointer"
+              data-cursor="EMAIL"
+            >
+              <span>Start a conversation</span>
+              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </a>
           </div>
+        </Reveal>
 
-          {/* Right Column: Interactive Form (7 Cols) */}
-          <div className="lg:col-span-7">
-            {formState === "success" ? (
-              <div className="p-10 rounded-3xl bg-[#08080a] border border-emerald-400/30 space-y-5 animate-in">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 rounded-2xl bg-emerald-400/10 border border-emerald-400/25">
-                    <Check className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <div>
-                    <span className="text-meta text-emerald-400">TRANSMISSION CONFIRMED</span>
-                    <h3 className="text-2xl font-bold text-white font-display">
-                      Thank You. I&apos;ll Get Back To You.
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-sm text-dim leading-relaxed">
-                  Your project brief has been received. I review incoming messages and respond with technical availability within 24 hours.
-                </p>
+        {/* Contact Action Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Email */}
+          <Reveal delay={0.1}>
+            <div className="card-engineered rounded-2xl p-6 space-y-3 h-full">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-[#173753] font-semibold flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5" />
+                  EMAIL
+                </span>
                 <button
-                  onClick={() => {
-                    setFormState("idle");
-                    setFormData({ name: "", email: "", projectType: "Mobile App", message: "" });
-                  }}
-                  className="text-meta text-cyan-400 hover:text-cyan-300 transition pt-2 cursor-pointer block"
+                  onClick={() => copyToClipboard(personal.email, "email")}
+                  className="text-[#8b8b94] hover:text-[#173753] transition cursor-pointer"
+                  title="Copy email"
                 >
-                  SEND ANOTHER MESSAGE →
+                  {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
               </div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-7 p-8 sm:p-10 rounded-3xl bg-[#08080a] border border-white/10"
-                noValidate
+              <a
+                href={`mailto:${personal.email}`}
+                className="block text-xs sm:text-sm font-mono font-medium text-[#111110] hover:text-[#173753] transition break-all"
+                data-cursor="EMAIL"
               >
-                {/* Project Type Selectors */}
-                <div>
-                  <label className="text-meta text-ghost block mb-3 font-bold">
-                    PROJECT TYPE // SCOPE
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {projectTypes.map((type) => {
-                      const isSelected = formData.projectType === type;
-                      return (
-                        <button
-                          key={type}
-                          type="button"
-                          onClick={() => handleChange("projectType", type)}
-                          className={`px-4 py-2 rounded-full text-xs font-mono transition cursor-pointer outline-none focus:outline-none focus:ring-0 ${
-                            isSelected
-                              ? "bg-white text-black font-bold"
-                              : "bg-white/5 text-white/70 hover:text-white border border-white/10"
-                          }`}
-                        >
-                          {type}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+                {personal.email}
+              </a>
+            </div>
+          </Reveal>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {/* Name Field */}
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-meta text-ghost block">
-                      YOUR NAME
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => handleChange("name", e.target.value)}
-                      placeholder="Your Full Name"
-                      className={`w-full pb-3 bg-transparent border-b text-white placeholder-white/20 text-sm outline-none focus:outline-none focus:ring-0 transition rounded-none font-light ${
-                        errors.name ? "border-red-400" : "border-white/15 focus:border-white/50"
-                      }`}
-                    />
-                    {errors.name && (
-                      <p className="text-[10px] text-red-400 font-mono">{errors.name}</p>
-                    )}
-                  </div>
+          {/* Phone */}
+          <Reveal delay={0.15}>
+            <div className="card-engineered rounded-2xl p-6 space-y-3 h-full">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-[#173753] font-semibold flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5" />
+                  PHONE
+                </span>
+                <button
+                  onClick={() => copyToClipboard(personal.phone, "phone")}
+                  className="text-[#8b8b94] hover:text-[#173753] transition cursor-pointer"
+                  title="Copy phone"
+                >
+                  {copiedPhone ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+              <a
+                href={`tel:${personal.phone}`}
+                className="block text-xs sm:text-sm font-mono font-medium text-[#111110] hover:text-[#173753] transition"
+                data-cursor="CALL"
+              >
+                {personal.phone}
+              </a>
+            </div>
+          </Reveal>
 
-                  {/* Email Field */}
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-meta text-ghost block">
-                      EMAIL ADDRESS
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => handleChange("email", e.target.value)}
-                      placeholder="your.email@company.com"
-                      className={`w-full pb-3 bg-transparent border-b text-white placeholder-white/20 text-sm outline-none focus:outline-none focus:ring-0 transition rounded-none font-light ${
-                        errors.email ? "border-red-400" : "border-white/15 focus:border-white/50"
-                      }`}
-                    />
-                    {errors.email && (
-                      <p className="text-[10px] text-red-400 font-mono">{errors.email}</p>
-                    )}
-                  </div>
-                </div>
+          {/* GitHub */}
+          <Reveal delay={0.2}>
+            <div className="card-engineered rounded-2xl p-6 space-y-3 h-full group">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-[#173753] font-semibold flex items-center gap-1.5">
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  GITHUB
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#8b8b94] group-hover:text-[#173753] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
+              <a
+                href={personal.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-xs sm:text-sm font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                data-cursor="GITHUB"
+              >
+                {personal.githubHandle}
+              </a>
+            </div>
+          </Reveal>
 
-                {/* Message Field */}
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-meta text-ghost block">
-                    PROJECT DETAILS // MESSAGE
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) => handleChange("message", e.target.value)}
-                    placeholder="Tell me about the application scope, timeline, and tech requirements..."
-                    className={`w-full pb-3 bg-transparent border-b text-white placeholder-white/20 text-sm outline-none focus:outline-none focus:ring-0 transition rounded-none resize-none font-light ${
-                      errors.message ? "border-red-400" : "border-white/15 focus:border-white/50"
-                    }`}
-                  />
-                  {errors.message && (
-                    <p className="text-[10px] text-red-400 font-mono">{errors.message}</p>
-                  )}
-                </div>
-
-                {formState === "error" && (
-                  <div className="p-4 rounded-2xl bg-red-500/10 border border-red-400/30 text-xs text-red-300">
-                    FAILED TO SEND — TRY AGAIN or reach out directly at{" "}
-                    <a href={`mailto:${personal.email}`} className="underline font-mono">
-                      {personal.email}
-                    </a>
-                  </div>
-                )}
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={formState === "loading"}
-                    className="px-8 py-4 rounded-full bg-white text-black text-meta font-bold tracking-widest uppercase hover:bg-white/90 transition-all cursor-pointer flex items-center gap-3 disabled:opacity-50"
-                    data-cursor="SEND"
-                  >
-                    {formState === "loading" ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>SENDING…</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>SEND MESSAGE →</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+          {/* LinkedIn */}
+          <Reveal delay={0.25}>
+            <div className="card-engineered rounded-2xl p-6 space-y-3 h-full group">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-mono text-[#173753] font-semibold flex items-center gap-1.5">
+                  <LinkedinIcon className="w-3.5 h-3.5" />
+                  LINKEDIN
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#8b8b94] group-hover:text-[#173753] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
+              <a
+                href={personal.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-xs sm:text-sm font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                data-cursor="LINKEDIN"
+              >
+                {personal.linkedinHandle}
+              </a>
+            </div>
+          </Reveal>
         </div>
 
-        {/* Bottom Colophon */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-meta text-ghost">
-          <div>
-            &copy; {new Date().getFullYear()} {personal.name.toUpperCase()}. ALL RIGHTS RESERVED.
+        {/* Large Download Verified Resume CTA Card */}
+        <Reveal delay={0.3}>
+          <div className="card-engineered rounded-2xl p-8 sm:p-10 bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2 text-xs font-mono text-[#173753] font-semibold">
+                <span className="status-dot" />
+                <span>OFFICIAL VERIFIED RESUME</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-display font-bold text-[#111110]">
+                Download Sahil Mansuri’s Resume
+              </h3>
+              <p className="text-xs sm:text-sm text-[#5a5a62] font-mono">
+                1+ Year Hands-on Experience • Flutter &amp; Kotlin • 1M+ Downloads Balaji Astro Guide
+              </p>
+            </div>
+
+            <button
+              onClick={onOpenResumeModal}
+              className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white hover:bg-[#0f2538] hover:-translate-y-0.5 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-md shrink-0"
+              data-cursor="RESUME"
+            >
+              <FileText className="w-4 h-4" />
+              <span>View / Print Resume →</span>
+            </button>
           </div>
-          <div className="font-mono text-[10px]">
-            ENGINEERED WITH FLUTTER, KOTLIN, NEXT.JS &amp; THREE.JS
+        </Reveal>
+
+        {/* Footer Meta & Copyright */}
+        <div className="pt-8 border-t border-[rgba(17,17,16,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-[#8b8b94]">
+          <div>
+            © {new Date().getFullYear()} SAHIL MANSURI — ALL RIGHTS RESERVED
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-[#173753]">
+              <span className="status-dot" />
+              Available for Opportunities
+            </span>
+            <span>•</span>
+            <span>Jaipur, Rajasthan</span>
           </div>
         </div>
       </div>

@@ -21,38 +21,35 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sahil Mansuri — Flutter & Kotlin Developer | iOS & Android Apps & Backend Engineer",
+  title: "Sahil Mansuri — Mobile App Developer | Flutter · Kotlin · Jetpack Compose",
   description:
-    "Full-stack mobile engineer specializing in cross-platform iOS & Android mobile apps (Flutter, Dart), native Android (Kotlin), and backend systems (Node.js, Express, MongoDB, Firebase).",
+    "Mobile App Developer with 1+ year of hands-on experience building and maintaining production Flutter applications for iOS and Android. Reached 1M+ downloads on Google Play.",
   keywords: [
     "Sahil Mansuri",
+    "Mobile App Developer",
     "Flutter Developer",
     "Kotlin Developer",
-    "iOS Developer",
-    "Android Developer",
-    "iOS and Android App Developer",
-    "Mobile Engineer",
-    "Cross-Platform Mobile Apps",
-    "Node.js",
-    "Express.js",
-    "MongoDB",
-    "Firebase",
-    "REST API",
+    "Jetpack Compose",
+    "iOS and Android",
+    "Balaji Astro Guide",
+    "1M+ Downloads",
+    "Appic Software LLP",
+    "Jaipur",
   ],
   authors: [{ name: "Sahil Mansuri" }],
   openGraph: {
-    title: "Sahil Mansuri — Flutter & Kotlin Developer (iOS & Android)",
+    title: "Sahil Mansuri — Mobile App Developer (Flutter · Kotlin · Jetpack Compose)",
     description:
-      "Building high-performance iOS & Android apps with Flutter, Kotlin & scalable backend systems.",
-    siteName: "Sahil Mansuri — Developer Portfolio",
+      "Production mobile developer. Delivered 1M+ Google Play downloads astrology app. Flutter, Kotlin, Clean Architecture, Bloc/Cubit.",
+    siteName: "Sahil Mansuri — Developer Portfolio & Lab",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sahil Mansuri — Flutter & Kotlin Developer",
+    title: "Sahil Mansuri — Mobile App Developer",
     description:
-      "Mobile & Backend Engineer specializing in Flutter, Kotlin, Node.js, and MongoDB.",
+      "Mobile App Developer specializing in Flutter, Kotlin, Jetpack Compose, and production mobile releases.",
   },
 };
 
@@ -64,9 +61,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} dark`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-[#030303] text-[#f5f5f7] font-sans antialiased selection:bg-white selection:text-black flex flex-col">
+      <body className="min-h-screen bg-white text-[#0a0a0a] font-sans antialiased selection:bg-[#173753] selection:text-white flex flex-col">
         {children}
       </body>
     </html>
