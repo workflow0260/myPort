@@ -43,6 +43,12 @@ export async function generateMetadata(): Promise<Metadata> {
     publisher: siteConfig.name,
     category: "technology",
     keywords: siteConfig.keywords,
+    referrer: "origin-when-cross-origin",
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
     alternates: {
       canonical: "/",
     },
@@ -102,6 +108,7 @@ export default function RootLayout({
         name: "Sahil Mansuri",
         jobTitle: "Flutter Developer",
         url: siteUrl,
+        mainEntityOfPage: siteUrl,
         image: `${siteUrl}/og-image.png`,
         email: "mailto:sahilmansuri2010@gmail.com",
         telephone: "+918890029227",
@@ -118,6 +125,16 @@ export default function RootLayout({
           name: "Appic Software LLP",
           location: "Jaipur, Rajasthan",
         },
+        hasOccupation: {
+          "@type": "Occupation",
+          name: "Flutter Developer",
+          occupationLocation: {
+            "@type": "City",
+            name: "Jaipur",
+          },
+          skills: "Flutter, Dart, Kotlin, Jetpack Compose, Firebase, REST APIs, Bloc Pattern, Clean Architecture",
+        },
+        knowsLanguage: ["en", "hi"],
         sameAs: [
           "https://github.com/sahil8822",
           "https://www.linkedin.com/in/sahil-mansuri-74a9a0255",
@@ -149,7 +166,7 @@ export default function RootLayout({
         publisher: {
           "@id": `${siteUrl}/#person`,
         },
-        inLanguage: "en-US",
+        inLanguage: "en-IN",
       },
     ],
   };
