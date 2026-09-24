@@ -33,6 +33,9 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
 
   return (
     <div
+      role="status"
+      aria-live="polite"
+      aria-label="Loading portfolio"
       className={`fixed inset-0 z-[9999] bg-white text-[#0a0a0a] flex flex-col justify-between p-8 sm:p-14 select-none transition-all duration-300 ${
         isFadingOut ? "opacity-0 pointer-events-none translate-y-[-10px]" : "opacity-100"
       }`}
@@ -40,27 +43,27 @@ export const CinematicLoader: React.FC<CinematicLoaderProps> = ({ onComplete }) 
       {/* Top Header */}
       <div className="flex items-center justify-between text-meta text-[#71717a]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#173753]" />
+          <span className="w-2 h-2 rounded-full bg-[#173753]" aria-hidden="true" />
           <span className="text-[#173753] font-semibold">SAHIL MANSURI // LAB</span>
         </div>
         <div className="font-mono text-xs">{progress}%</div>
       </div>
 
-      {/* Center Editorial Typography */}
+      {/* Center Editorial Typography - changed from h1 to styled div to ensure single semantic H1 on page */}
       <div className="max-w-4xl">
         <span className="text-meta text-[#173753] block mb-3 font-semibold tracking-[0.2em]">
-          // INITIALIZING MOBILE LAB
+          {"// INITIALIZING MOBILE LAB"}
         </span>
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold uppercase tracking-tight text-[#0a0a0a] leading-none">
+        <div className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold uppercase tracking-tight text-[#0a0a0a] leading-none">
           ENGINEERING
           <br />
           <span className="text-[#173753]">EXPERIENCES.</span>
-        </h1>
+        </div>
       </div>
 
       {/* Bottom Status & Accent Line */}
       <div className="space-y-3">
-        <div className="h-[2px] w-full bg-[#e4e4e7] overflow-hidden">
+        <div className="h-[2px] w-full bg-[#e4e4e7] overflow-hidden" aria-hidden="true">
           <div
             className="h-full bg-[#173753] transition-all duration-100 ease-out"
             style={{ width: `${progress}%` }}

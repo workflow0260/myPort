@@ -19,6 +19,12 @@ export const Reveal: React.FC<RevealProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      const timeoutId = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(timeoutId);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -32,11 +38,15 @@ export const Reveal: React.FC<RevealProps> = ({
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const el = ref.current;
+    if (el) {
+      observer.observe(el);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (el) observer.unobserve(el);
+      observer.disconnect();
+    };
   }, []);
 
   const getTransform = () => {

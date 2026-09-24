@@ -8,7 +8,7 @@ export const CustomCursor: React.FC = () => {
   const [cursorText, setCursorText] = useState("");
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [isTouch, setIsTouch] = useState(true);
+  const [isFinePointer, setIsFinePointer] = useState(false);
 
   useEffect(() => {
     // Disable on non-fine pointer or prefers-reduced-motion
@@ -16,10 +16,10 @@ export const CustomCursor: React.FC = () => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (!mediaQuery.matches || motionQuery.matches) {
-      setIsTouch(true);
       return;
     }
-    setIsTouch(false);
+
+    const timer = setTimeout(() => setIsFinePointer(true), 0);
 
     let animationFrameId: number;
     let targetX = -100;
@@ -63,13 +63,14 @@ export const CustomCursor: React.FC = () => {
     animationFrameId = requestAnimationFrame(animateTrailing);
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
-  if (isTouch || !isVisible) return null;
+  if (!isFinePointer || !isVisible) return null;
 
   const hasText = cursorText.length > 0;
   const isViewMode = cursorText === "VIEW" || cursorText === "EXPLORE" || cursorText === "RESUME";

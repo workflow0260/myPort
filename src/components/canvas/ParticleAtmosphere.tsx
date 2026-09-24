@@ -4,6 +4,11 @@ import React, { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+function pseudoRandom(seed: number): number {
+  const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 export const ParticleAtmosphere: React.FC<{ count?: number }> = ({ count = 900 }) => {
   const pointsRef = useRef<THREE.Points>(null);
 
@@ -17,9 +22,9 @@ export const ParticleAtmosphere: React.FC<{ count?: number }> = ({ count = 900 }
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      pos[i3] = (Math.random() - 0.5) * 28;
-      pos[i3 + 1] = (Math.random() - 0.5) * 28;
-      pos[i3 + 2] = (Math.random() - 0.5) * 20;
+      pos[i3] = (pseudoRandom(i * 3 + 1) - 0.5) * 28;
+      pos[i3 + 1] = (pseudoRandom(i * 3 + 2) - 0.5) * 28;
+      pos[i3 + 2] = (pseudoRandom(i * 3 + 3) - 0.5) * 20;
 
       const mixed = i % 3 === 0 ? c1 : i % 3 === 1 ? c2 : c3;
       cols[i3] = mixed.r;

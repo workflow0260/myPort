@@ -33,6 +33,10 @@ export interface PortfolioData {
     githubHandle: string;
     linkedin: string;
     linkedinHandle: string;
+    twitter: string;
+    twitterHandle: string;
+    instagram: string;
+    instagramHandle: string;
     summary: string;
     primaryFocus: string[];
     accentColor: string;
@@ -74,6 +78,10 @@ export const PORTFOLIO_DATA: PortfolioData = {
     githubHandle: "github.com/sahil8822",
     linkedin: "https://www.linkedin.com/in/sahil-mansuri-74a9a0255",
     linkedinHandle: "linkedin.com/in/sahil-mansuri-74a9a0255",
+    twitter: "https://x.com/Sahilmansur2010",
+    twitterHandle: "x.com/Sahilmansur2010",
+    instagram: "https://www.instagram.com/light_dark_0123/?hl=en",
+    instagramHandle: "instagram.com/light_dark_0123",
     summary:
       "I am a Mobile App Developer with 1+ year of hands-on experience building and maintaining production Flutter applications for iOS and Android. Delivered production mobile applications, including an astrology product with 1M+ Google Play downloads. Strong in Dart, Flutter, Kotlin, Jetpack Compose, Bloc/Cubit, Clean Architecture, Firebase, Supabase, REST APIs, and real-time data flows. Comfortable taking features from UI implementation through integration, testing, and release support.",
     primaryFocus: [

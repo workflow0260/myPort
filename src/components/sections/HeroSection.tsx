@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowDown, ArrowUpRight, FileText, Sparkles, Terminal, Activity, Check } from "lucide-react";
+import { ArrowDown, FileText, Activity, Check } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -10,7 +10,7 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) => {
-  const { personal, metrics } = PORTFOLIO_DATA;
+  const { metrics } = PORTFOLIO_DATA;
   const [copiedCoords, setCopiedCoords] = useState(false);
   const [timeStr, setTimeStr] = useState("");
 
@@ -41,6 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
   return (
     <section
       id="hero"
+      aria-label="Introduction & Overview"
       className="relative w-full pt-28 sm:pt-36 pb-20 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)]"
     >
       <div className="max-w-[1200px] mx-auto space-y-10">
@@ -49,14 +50,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
           <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-[#8b8b94] font-mono border-b border-[rgba(17,17,16,0.06)] pb-4">
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1.5 text-[#173753] font-semibold">
-                <Activity className="w-3.5 h-3.5 text-[#173753] animate-pulse" />
+                <Activity className="w-3.5 h-3.5 text-[#173753] animate-pulse" aria-hidden="true" />
                 <span>SYS.READY // MOBILE LAB</span>
               </span>
-              <span className="text-[#d4d4d8]">|</span>
+              <span className="text-[#d4d4d8]" aria-hidden="true">|</span>
               <button
                 onClick={copyCoords}
-                className="hover:text-[#173753] transition cursor-pointer flex items-center gap-1"
-                title="Click to copy coordinates"
+                className="hover:text-[#173753] transition cursor-pointer flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-[#173753]"
+                title="Click to copy location coordinates"
+                aria-label="Copy Jaipur, Rajasthan coordinates to clipboard"
               >
                 <span>26.9124° N, 75.7873° E</span>
                 {copiedCoords ? <Check className="w-3 h-3 text-emerald-600" /> : null}
@@ -64,8 +66,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="hidden sm:inline">BUILD: STABLE</span>
-              <span>•</span>
+              <span className="hidden sm:inline">LOCATION: JAIPUR, IN</span>
+              <span aria-hidden="true">•</span>
               <span className="text-[#173753] font-semibold">{timeStr}</span>
             </div>
           </div>
@@ -75,16 +77,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
         <Reveal delay={0.1}>
           <div>
             <span className="eyebrow inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#173753]/10 text-[#173753] border border-[#173753]/15">
-              <span className="status-dot animate-pulse" />
-              <span>SAHIL MANSURI // LABS</span>
+              <span className="status-dot animate-pulse" aria-hidden="true" />
+              <span>SAHIL MANSURI // FLUTTER DEVELOPER</span>
             </span>
           </div>
         </Reveal>
 
-        {/* Large Editorial Headline */}
+        {/* Large Editorial Headline - Semantic H1 */}
         <div className="space-y-4 max-w-4xl">
           <Reveal delay={0.15}>
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-normal text-[#111110] leading-[1.05] tracking-tight">
+              <span className="sr-only">Sahil Mansuri — Flutter Developer in Jaipur &amp; Mobile App Developer. </span>
               I build production{" "}
               <span className="text-[#173753] font-medium underline decoration-[rgba(23,55,83,0.25)] underline-offset-8">
                 mobile experiences.
@@ -94,7 +97,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
 
           <Reveal delay={0.2}>
             <p className="text-base sm:text-xl text-[#5a5a62] leading-relaxed max-w-2xl pt-2">
-              Mobile App Developer with 1+ year of hands-on experience building and maintaining production Flutter applications for iOS and Android. Strong in Dart, Kotlin, Jetpack Compose, Bloc/Cubit, and Clean Architecture.
+              Flutter Developer in Jaipur with 1+ year of hands-on experience building and maintaining production mobile applications for iOS and Android. Strong in Dart, Kotlin, Jetpack Compose, Bloc/Cubit, Firebase, REST APIs, and Clean Architecture.
             </p>
           </Reveal>
         </div>
@@ -106,17 +109,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
               href="#work"
               className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_4px_12px_-4px_rgba(23,55,83,0.4)] hover:bg-[#0f2538] hover:-translate-y-0.5 h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer"
               data-cursor="WORK"
+              aria-label="View selected Flutter mobile app projects"
             >
               <span>Selected Work</span>
-              <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" aria-hidden="true" />
             </a>
 
             <button
               onClick={onOpenResumeModal}
               className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 border border-[rgba(17,17,16,0.12)] bg-white text-[#111110] hover:border-[#173753] hover:text-[#173753] hover:-translate-y-0.5 h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-sm"
               data-cursor="RESUME"
+              aria-label="Open verified resume modal"
             >
-              <FileText className="w-3.5 h-3.5 text-[#173753]" />
+              <FileText className="w-3.5 h-3.5 text-[#173753]" aria-hidden="true" />
               <span>View Resume</span>
             </button>
           </div>
@@ -129,7 +134,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
             <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="status-dot animate-pulse" />
+                  <span className="status-dot animate-pulse" aria-hidden="true" />
                   <span className="text-[#8b8b94] font-mono">Milestone</span>
                 </div>
                 <span className="font-mono text-[11px] font-bold text-[#173753] px-2 py-0.5 rounded bg-[#173753]/10">
@@ -140,11 +145,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                 <div className="text-3xl sm:text-4xl font-display font-black text-[#173753]">
                   {metrics.value}
                 </div>
-                <h3 className="text-sm font-semibold text-[#111110] uppercase tracking-wide mt-1 font-mono">
+                <h2 className="text-sm font-semibold text-[#111110] uppercase tracking-wide mt-1 font-mono">
                   {metrics.project}
-                </h3>
+                </h2>
                 <p className="text-xs text-[#5a5a62] leading-relaxed mt-2">
-                  Vedic astrology app with live streaming and Janam Kundli scaled to over 1M+ downloads on Google Play.
+                  Vedic astrology mobile app featuring Janam Kundli, live spiritual streaming, and horoscope predictions scaled to over 1M+ downloads on Google Play.
                 </p>
               </div>
             </div>
@@ -155,7 +160,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
             <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="status-dot" />
+                  <span className="status-dot" aria-hidden="true" />
                   <span className="text-[#8b8b94] font-mono">Active Role</span>
                 </div>
                 <span className="font-mono text-[10px] text-[#5a5a62]">
@@ -163,14 +168,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-display font-bold text-[#111110] uppercase">
+                <h2 className="text-lg font-display font-bold text-[#111110] uppercase">
                   Flutter Developer
-                </h3>
+                </h2>
                 <p className="text-xs text-[#173753] font-mono font-medium mt-0.5">
                   Appic Software LLP • Jaipur
                 </p>
                 <p className="text-xs text-[#5a5a62] leading-relaxed mt-2">
-                  Developing and maintaining production Flutter applications with responsive UI, performance, and Clean Architecture.
+                  Developing and maintaining production Flutter applications with responsive UI, performance, Bloc state management, and Clean Architecture.
                 </p>
               </div>
             </div>
@@ -181,7 +186,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
             <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="status-dot" />
+                  <span className="status-dot" aria-hidden="true" />
                   <span className="text-[#8b8b94] font-mono">Core Tooling</span>
                 </div>
                 <span className="font-mono text-[10px] text-[#173753] font-semibold">
@@ -189,9 +194,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-display font-bold text-[#111110] uppercase">
+                <h2 className="text-lg font-display font-bold text-[#111110] uppercase">
                   Flutter • Kotlin • Compose
-                </h3>
+                </h2>
                 <p className="text-xs text-[#5a5a62] leading-relaxed mt-2">
                   Predictable reactive flows with Bloc/Cubit, Firebase, Supabase, REST APIs, WebSockets, and unit/widget testing.
                 </p>

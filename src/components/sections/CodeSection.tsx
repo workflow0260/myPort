@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowUpRight, GitBranch, Code2, Terminal } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 
 export const CodeSection: React.FC = () => {
@@ -13,7 +13,7 @@ export const CodeSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-8 bg-white border border-[#e4e4e7] rounded-sm">
           <div>
             <span className="text-meta text-[#173753] font-bold text-xs block mb-1">
-              // REPOSITORIES &amp; WORKFLOW
+              {"// REPOSITORIES & WORKFLOW"}
             </span>
             <h3 className="text-2xl font-display font-black uppercase text-[#0a0a0a]">
               OPEN SOURCE &amp; WORKFLOW

@@ -4,6 +4,11 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+function pseudoRandom(seed: number): number {
+  const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 export const SystemArchitecture3D: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
   const phoneRef = useRef<THREE.Group>(null);
@@ -14,14 +19,10 @@ export const SystemArchitecture3D: React.FC = () => {
 
   // Animated data pulses traveling between Mobile -> API -> Backend -> DB
   const particleCount = 60;
-  const [positions, initialProgresses] = useMemo(() => {
-    const pos = new Float32Array(particleCount * 3);
-    const progresses = new Float32Array(particleCount);
-    for (let i = 0; i < particleCount; i++) {
-      progresses[i] = Math.random();
-    }
-    return [pos, progresses];
-  }, [particleCount]);
+  const positions = useMemo(() => new Float32Array(particleCount * 3), [particleCount]);
+  const progressesRef = useRef<Float32Array>(
+    new Float32Array(Array.from({ length: particleCount }, (_, idx) => pseudoRandom(idx + 1)))
+  );
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
@@ -79,9 +80,10 @@ export const SystemArchitecture3D: React.FC = () => {
       // Point C: Node/Express Backend (1.2, -0.2, 0)
       // Point D: MongoDB/Firebase Cluster (3.4, 0.2, -0.2)
 
+      const progresses = progressesRef.current;
       for (let i = 0; i < particleCount; i++) {
-        initialProgresses[i] = (initialProgresses[i] + delta * 0.35) % 1;
-        const p = initialProgresses[i];
+        progresses[i] = (progresses[i] + delta * 0.35) % 1;
+        const p = progresses[i];
         const i3 = i * 3;
 
         let x = 0, y = 0, z = 0;

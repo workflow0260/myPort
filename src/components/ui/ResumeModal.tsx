@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, Download, Printer, ExternalLink, CheckCircle2 } from "lucide-react";
+import { X, Download, Printer } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 
 interface ResumeModalProps {
@@ -10,7 +10,7 @@ interface ResumeModalProps {
 }
 
 export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => {
-  const { personal, experience, projects, stack, coreStrengths } = PORTFOLIO_DATA;
+  const { personal, experience, stack, coreStrengths } = PORTFOLIO_DATA;
 
   if (!isOpen) return null;
 
@@ -86,6 +86,14 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               <span>•</span>
               <a href={personal.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#173753] underline underline-offset-2">
                 {personal.linkedinHandle}
+              </a>
+              <span>•</span>
+              <a href={personal.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-[#173753] underline underline-offset-2">
+                {personal.twitterHandle}
+              </a>
+              <span>•</span>
+              <a href={personal.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#173753] underline underline-offset-2">
+                {personal.instagramHandle}
               </a>
             </div>
           </div>

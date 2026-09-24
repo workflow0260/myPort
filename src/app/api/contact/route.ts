@@ -30,6 +30,7 @@ export async function POST(request: Request) {
           name,
           email,
           company: company || "Undisclosed",
+          message: message || "No message provided",
           tierInterest: tierInterest || "Enterprise",
           receivedAt: new Date().toISOString(),
         },

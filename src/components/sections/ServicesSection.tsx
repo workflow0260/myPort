@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import { PORTFOLIO_DATA } from "@/data/portfolio";
-import { Check } from "lucide-react";
 
 export const ServicesSection: React.FC = () => {
   return (
     <section id="services" className="w-full py-20 px-6 sm:px-12 border-b border-[#e4e4e7] bg-white">
       <div className="max-w-7xl mx-auto space-y-6">
         <span className="text-meta text-[#173753] font-bold text-xs">
-          // PRODUCTION CAPABILITIES
+          {"// PRODUCTION CAPABILITIES"}
         </span>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-6 border border-[#e4e4e7] rounded-sm bg-[#fafbfc]">

@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowUpRight, Sparkles, Smartphone, CheckCircle2, ChevronRight } from "lucide-react";
-import { PORTFOLIO_DATA, Project } from "@/data/portfolio";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const ProjectsShowcase: React.FC = () => {
@@ -10,13 +11,17 @@ export const ProjectsShowcase: React.FC = () => {
   const [expandedSlug, setExpandedSlug] = useState<string | null>("balaji-astro-guide");
 
   return (
-    <section id="work" className="w-full py-24 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)] relative">
+    <section
+      id="work"
+      aria-label="Selected Production Projects"
+      className="w-full py-24 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)] relative"
+    >
       <div className="max-w-[1200px] mx-auto space-y-12">
         {/* Section Header */}
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[rgba(17,17,16,0.08)] pb-8">
             <div>
-              <p className="eyebrow mb-3">// 01 • SELECTED WORK</p>
+              <p className="eyebrow mb-3">{"// 01 • SELECTED WORK"}</p>
               <h2 className="text-3xl sm:text-5xl font-display font-normal text-[#111110] leading-tight">
                 Production apps built for{" "}
                 <span className="text-[#173753] font-medium">real users.</span>
@@ -24,7 +29,7 @@ export const ProjectsShowcase: React.FC = () => {
             </div>
 
             <p className="max-w-md text-sm text-[#5a5a62] leading-relaxed">
-              Every application is architected with clean layer boundaries, reactive state management, and reliable release pipelines.
+              Every mobile application is architected with clean layer boundaries, reactive Bloc/Cubit state management, and production-ready release pipelines.
             </p>
           </div>
         </Reveal>
@@ -36,22 +41,20 @@ export const ProjectsShowcase: React.FC = () => {
 
             return (
               <Reveal key={project.slug} delay={0.1 * (idx + 1)}>
-                <div
-                  onClick={() => setExpandedSlug(isExpanded ? null : project.slug)}
-                  className={`card-engineered rounded-2xl p-7 flex flex-col justify-between cursor-pointer transition-all duration-300 h-full group ${
+                <article
+                  className={`card-engineered rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 h-full group ${
                     isExpanded
                       ? "ring-2 ring-[#173753] shadow-[0_8px_30px_rgba(23,55,83,0.12)] bg-white"
                       : "hover:-translate-y-1 hover:shadow-lg"
                   }`}
-                  data-cursor="VIEW"
                 >
                   <div className="space-y-4">
                     {/* Status Bar */}
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
-                        <span className="status-dot animate-pulse" />
+                        <span className="status-dot animate-pulse" aria-hidden="true" />
                         <span className="text-[#8b8b94] font-mono">
-                          {project.downloads ? "1M+ Milestone" : "Live App"}
+                          {project.downloads ? "1M+ Milestone" : "Production App"}
                         </span>
                       </div>
                       <span className="text-[10px] font-mono font-semibold uppercase px-2 py-0.5 rounded bg-[#173753]/10 text-[#173753]">
@@ -82,7 +85,7 @@ export const ProjectsShowcase: React.FC = () => {
                       <ul className="space-y-1 text-xs text-[#27272a]">
                         {project.features.map((feat, fIdx) => (
                           <li key={fIdx} className="flex items-start gap-2">
-                            <span className="text-[#173753] font-bold">›</span>
+                            <span className="text-[#173753] font-bold" aria-hidden="true">›</span>
                             <span>{feat}</span>
                           </li>
                         ))}
@@ -90,7 +93,7 @@ export const ProjectsShowcase: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Bottom Tech Pills */}
+                  {/* Bottom Tech Pills & Case Study Link */}
                   <div className="pt-6 border-t border-[rgba(17,17,16,0.06)] mt-6 space-y-3">
                     <div className="flex flex-wrap gap-1.5">
                       {project.technologies.map((t) => (
@@ -104,13 +107,27 @@ export const ProjectsShowcase: React.FC = () => {
                     </div>
 
                     <div className="flex items-center justify-between text-xs font-mono text-[#173753] pt-1">
-                      <span className="font-semibold">
-                        {project.downloads || "Production Ready"}
-                      </span>
-                      <ArrowUpRight className="w-4 h-4 text-[#173753] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      <button
+                        type="button"
+                        onClick={() => setExpandedSlug(isExpanded ? null : project.slug)}
+                        className="text-xs font-semibold hover:underline cursor-pointer flex items-center gap-1"
+                        aria-expanded={isExpanded}
+                        aria-label={`Toggle details for ${project.title}`}
+                      >
+                        <span>{project.downloads || "Production Ready"}</span>
+                      </button>
+
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="inline-flex items-center gap-1 font-semibold hover:text-[#0f2538] transition-colors py-1"
+                        aria-label={`Read case study for ${project.title}`}
+                      >
+                        <span>Case Study</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
+                      </Link>
                     </div>
                   </div>
-                </div>
+                </article>
               </Reveal>
             );
           })}
