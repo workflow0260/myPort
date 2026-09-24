@@ -29,6 +29,7 @@ export interface PortfolioData {
     location: string;
     email: string;
     phone: string;
+    phoneRaw?: string;
     github: string;
     githubHandle: string;
     linkedin: string;
@@ -73,7 +74,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
     headline: "FLUTTER · KOTLIN · JETPACK COMPOSE",
     location: "Jaipur, Rajasthan",
     email: "sahilmansuri2010@gmail.com",
-    phone: "8890029227",
+    phone: "+91 88900 29227",
+    phoneRaw: "+918890029227",
     github: "https://github.com/sahil8822",
     githubHandle: "github.com/sahil8822",
     linkedin: "https://www.linkedin.com/in/sahil-mansuri-74a9a0255",

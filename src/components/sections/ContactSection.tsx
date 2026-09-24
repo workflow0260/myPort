@@ -49,25 +49,37 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
     }
   };
 
+  const rawPhone = personal.phoneRaw || "+918890029227";
+
   return (
-    <footer id="contact" aria-label="Contact & Portfolio Footer" className="relative z-10 border-t border-[rgba(17,17,16,0.08)] bg-[#f4f5f6] text-[#111110]">
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative z-10 border-t border-[rgba(17,17,16,0.08)] bg-[#f4f5f6] text-[#111110] scroll-mt-24"
+    >
       <div className="max-w-[1200px] mx-auto px-6 sm:px-12 pt-20 pb-14 space-y-16">
         {/* Big Snowbros Style Conversation Callout */}
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[rgba(17,17,16,0.08)] pb-16">
-            <div className="space-y-3 max-w-2xl">
+            <div className="space-y-4 max-w-2xl">
               <p className="eyebrow">{"// 06 • CONTACT"}</p>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-normal text-[#111110] leading-[1.05]">
+              <h2
+                id="contact-heading"
+                className="text-3xl sm:text-5xl md:text-6xl font-display font-normal text-[#111110] leading-[1.05]"
+              >
                 Building something worth{" "}
                 <span className="text-[#173753] font-medium underline decoration-[rgba(23,55,83,0.25)] underline-offset-8">
                   engineering well?
                 </span>
               </h2>
+              <p className="text-sm sm:text-base text-[#5a5a62] leading-relaxed max-w-xl">
+                Available for Flutter and mobile application development opportunities. Let’s discuss your next product or feature.
+              </p>
             </div>
 
             <a
               href={`mailto:${personal.email}`}
-              className="group inline-flex items-center gap-2 text-lg sm:text-xl font-medium text-[#173753] hover:text-[#0f2538] transition-colors shrink-0 cursor-pointer"
+              className="group inline-flex items-center gap-2 text-lg sm:text-xl font-medium text-[#173753] hover:text-[#0f2538] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 rounded-lg transition-colors shrink-0 cursor-pointer"
               data-cursor="EMAIL"
               aria-label="Send an email to Sahil Mansuri to start a conversation"
             >
@@ -90,7 +102,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 <button
                   type="button"
                   onClick={() => copyToClipboard(personal.email, "email")}
-                  className="text-[#8b8b94] hover:text-[#173753] transition cursor-pointer"
+                  className="text-[#8b8b94] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded p-1 transition cursor-pointer"
                   title="Copy email to clipboard"
                   aria-label="Copy Sahil Mansuri's email address to clipboard"
                 >
@@ -99,9 +111,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
               </div>
               <a
                 href={`mailto:${personal.email}`}
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition break-all"
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition break-all"
                 data-cursor="EMAIL"
-                aria-label={`Send email to ${personal.email}`}
               >
                 {personal.email}
               </a>
@@ -118,8 +129,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 </span>
                 <button
                   type="button"
-                  onClick={() => copyToClipboard(personal.phone, "phone")}
-                  className="text-[#8b8b94] hover:text-[#173753] transition cursor-pointer"
+                  onClick={() => copyToClipboard(rawPhone, "phone")}
+                  className="text-[#8b8b94] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded p-1 transition cursor-pointer"
                   title="Copy phone to clipboard"
                   aria-label="Copy Sahil Mansuri's phone number to clipboard"
                 >
@@ -127,10 +138,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 </button>
               </div>
               <a
-                href={`tel:${personal.phone}`}
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition"
+                href={`tel:${rawPhone}`}
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition"
                 data-cursor="CALL"
-                aria-label={`Call Sahil Mansuri at ${personal.phone}`}
               >
                 {personal.phone}
               </a>
@@ -151,9 +161,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 href={personal.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition truncate"
                 data-cursor="GITHUB"
-                aria-label="Open Sahil Mansuri's GitHub profile in a new tab"
+                aria-label="View Sahil Mansuri on GitHub"
               >
                 {personal.githubHandle}
               </a>
@@ -174,9 +184,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 href={personal.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition truncate"
                 data-cursor="LINKEDIN"
-                aria-label="Open Sahil Mansuri's LinkedIn profile in a new tab"
+                aria-label="View Sahil Mansuri on LinkedIn"
               >
                 {personal.linkedinHandle}
               </a>
@@ -197,9 +207,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 href={personal.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition truncate"
                 data-cursor="TWITTER"
-                aria-label="Open Sahil Mansuri's X (Twitter) profile in a new tab"
+                aria-label="View Sahil Mansuri on X"
               >
                 {personal.twitterHandle}
               </a>
@@ -220,9 +230,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 href={personal.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] transition truncate"
+                className="block text-xs font-mono font-medium text-[#111110] hover:text-[#173753] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] rounded transition truncate"
                 data-cursor="INSTAGRAM"
-                aria-label="Open Sahil Mansuri's Instagram profile in a new tab"
+                aria-label="View Sahil Mansuri on Instagram"
               >
                 {personal.instagramHandle}
               </a>
@@ -249,7 +259,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
             <button
               type="button"
               onClick={onOpenResumeModal}
-              className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white hover:bg-[#0f2538] hover:-translate-y-0.5 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-md shrink-0"
+              className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white hover:bg-[#0f2538] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-md shrink-0"
               data-cursor="RESUME"
               aria-label="View and print Sahil Mansuri's verified resume"
             >
@@ -260,7 +270,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
         </Reveal>
 
         {/* Footer Meta & Copyright */}
-        <div className="pt-8 border-t border-[rgba(17,17,16,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-[#8b8b94]">
+        <footer role="contentinfo" className="pt-8 border-t border-[rgba(17,17,16,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-[#8b8b94]">
           <div>
             © {new Date().getFullYear()} SAHIL MANSURI — ALL RIGHTS RESERVED
           </div>
@@ -272,8 +282,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
             <span aria-hidden="true">•</span>
             <span>Jaipur, Rajasthan, India</span>
           </div>
-        </div>
+        </footer>
       </div>
-    </footer>
+    </section>
   );
 };

@@ -103,6 +103,8 @@ export default function RootLayout({
         jobTitle: "Flutter Developer",
         url: siteUrl,
         image: `${siteUrl}/og-image.png`,
+        email: "mailto:sahilmansuri2010@gmail.com",
+        telephone: "+918890029227",
         description:
           "Sahil Mansuri is a Flutter Developer in Jaipur specializing in Flutter, Dart, Kotlin, Jetpack Compose, Firebase, REST APIs and production mobile apps.",
         address: {
