@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -14,14 +15,14 @@ export const ProjectsShowcase: React.FC = () => {
     <section
       id="work"
       aria-label="Selected Production Projects"
-      className="w-full py-24 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)] relative"
+      className="w-full py-12 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 border-b border-[rgba(17,17,16,0.08)] bg-transparent relative"
     >
-      <div className="max-w-[1200px] mx-auto space-y-12">
+      <div className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 md:space-y-12">
         {/* Section Header */}
         <Reveal>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[rgba(17,17,16,0.08)] pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 border-b border-[rgba(17,17,16,0.08)] pb-5 sm:pb-8">
             <div>
-              <p className="eyebrow mb-3">{"// 01 • SELECTED WORK"}</p>
+              <p className="eyebrow mb-2">Selected Mobile Work</p>
               <h2 className="text-3xl sm:text-5xl font-display font-normal text-[#111110] leading-tight">
                 Production apps built for{" "}
                 <span className="text-[#173753] font-medium">real users.</span>
@@ -34,18 +35,19 @@ export const ProjectsShowcase: React.FC = () => {
           </div>
         </Reveal>
 
-        {/* Snowbros Labs Engineered Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Engineered Project Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5 md:gap-6">
           {projects.map((project, idx) => {
             const isExpanded = expandedSlug === project.slug;
 
             return (
-              <Reveal key={project.slug} delay={0.1 * (idx + 1)}>
-                <article
-                  className={`card-engineered rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 h-full group ${
+              <Reveal key={project.slug} delay={0.08 * (idx + 1)}>
+                <motion.article
+                  whileHover={{ y: -5, transition: { duration: 0.22, ease: "easeOut" } }}
+                  className={`card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-6 md:p-7 flex flex-col justify-between transition-shadow duration-300 h-full group ${
                     isExpanded
-                      ? "ring-2 ring-[#173753] shadow-[0_8px_30px_rgba(23,55,83,0.12)] bg-white"
-                      : "hover:-translate-y-1 hover:shadow-lg"
+                      ? "ring-2 ring-[#173753] shadow-[0_12px_36px_rgba(23,55,83,0.14)] bg-white"
+                      : "hover:shadow-lg"
                   }`}
                 >
                   <div className="space-y-4">
@@ -77,24 +79,34 @@ export const ProjectsShowcase: React.FC = () => {
                       {project.overview}
                     </p>
 
-                    {/* Features */}
-                    <div className="space-y-2 pt-2 border-t border-[rgba(17,17,16,0.06)]">
-                      <div className="text-[10px] font-mono uppercase tracking-wider text-[#173753] font-bold">
-                        Key Capabilities:
-                      </div>
-                      <ul className="space-y-1 text-xs text-[#27272a]">
-                        {project.features.map((feat, fIdx) => (
-                          <li key={fIdx} className="flex items-start gap-2">
-                            <span className="text-[#173753] font-bold" aria-hidden="true">›</span>
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {/* Features with Animated Collapse/Expand */}
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          className="overflow-hidden space-y-2 pt-2 border-t border-[rgba(17,17,16,0.06)]"
+                        >
+                          <div className="text-[10px] font-mono uppercase tracking-wider text-[#173753] font-bold">
+                            Key Capabilities:
+                          </div>
+                          <ul className="space-y-1.5 text-xs text-[#27272a]">
+                            {project.features.map((feat, fIdx) => (
+                              <li key={fIdx} className="flex items-start gap-2">
+                                <span className="text-[#173753] font-bold" aria-hidden="true">›</span>
+                                <span>{feat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   {/* Bottom Tech Pills & Case Study Link */}
-                  <div className="pt-6 border-t border-[rgba(17,17,16,0.06)] mt-6 space-y-3">
+                  <div className="pt-4 border-t border-[rgba(17,17,16,0.06)] mt-4 sm:pt-6 sm:mt-6 space-y-3">
                     <div className="flex flex-wrap gap-1.5">
                       {project.technologies.map((t) => (
                         <span
@@ -107,15 +119,31 @@ export const ProjectsShowcase: React.FC = () => {
                     </div>
 
                     <div className="flex items-center justify-between text-xs font-mono text-[#173753] pt-1">
-                      <button
-                        type="button"
-                        onClick={() => setExpandedSlug(isExpanded ? null : project.slug)}
-                        className="text-xs font-semibold hover:underline cursor-pointer flex items-center gap-1"
-                        aria-expanded={isExpanded}
-                        aria-label={`Toggle details for ${project.title}`}
-                      >
-                        <span>{project.downloads || "Production Ready"}</span>
-                      </button>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setExpandedSlug(isExpanded ? null : project.slug)}
+                          className="text-xs font-semibold hover:underline cursor-pointer flex items-center gap-1"
+                          aria-expanded={isExpanded}
+                          aria-label={`Toggle details for ${project.title}`}
+                        >
+                          <span>{project.downloads || "Key Highlights"}</span>
+                          <span className="text-[10px]">{isExpanded ? "▲" : "▼"}</span>
+                        </button>
+
+                        {project.playStoreUrl && (
+                          <a
+                            href={project.playStoreUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 font-semibold text-[#173753] hover:underline"
+                            aria-label={`View ${project.title} on Google Play`}
+                          >
+                            <span>Google Play</span>
+                            <ArrowUpRight className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
 
                       <Link
                         href={`/projects/${project.slug}`}
@@ -127,7 +155,7 @@ export const ProjectsShowcase: React.FC = () => {
                       </Link>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               </Reveal>
             );
           })}

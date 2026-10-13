@@ -62,7 +62,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
         <Reveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[rgba(17,17,16,0.08)] pb-16">
             <div className="space-y-4 max-w-2xl">
-              <p className="eyebrow">{"// 06 • CONTACT"}</p>
+              <p className="eyebrow">Direct Contact &amp; Inquiries</p>
               <h2
                 id="contact-heading"
                 className="text-3xl sm:text-5xl md:text-6xl font-display font-normal text-[#111110] leading-[1.05]"
@@ -249,23 +249,46 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onOpenResumeModa
                 <span>OFFICIAL VERIFIED RESUME</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-display font-bold text-[#111110]">
-                Download Sahil Mansuri’s Resume
+                Sahil Mansuri’s Official Resume
               </h3>
               <p className="text-xs sm:text-sm text-[#5a5a62] font-mono">
-                1+ Year Hands-on Experience • Flutter &amp; Kotlin • 1M+ Downloads Balaji Astro Guide
+                1 Year 10 Months Hands-on Experience • Flutter &amp; Kotlin • 1M+ Downloads Balaji Astro Guide
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={onOpenResumeModal}
-              className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white hover:bg-[#0f2538] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-md shrink-0"
-              data-cursor="RESUME"
-              aria-label="View and print Sahil Mansuri's verified resume"
-            >
-              <FileText className="w-4 h-4" aria-hidden="true" />
-              <span>View / Print Resume →</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={personal.resumePdfUrl}
+                download="Sahil_Mansuri_Resume.pdf"
+                className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white hover:bg-[#0f2538] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-md shrink-0"
+                data-cursor="DOWNLOAD"
+                aria-label="Download Sahil Mansuri's verified resume PDF"
+              >
+                <FileText className="w-4 h-4" aria-hidden="true" />
+                <span>Download PDF</span>
+              </a>
+
+              <a
+                href="#resume"
+                className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 border border-[rgba(17,17,16,0.12)] bg-white text-[#111110] hover:border-[#173753] hover:text-[#173753] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 h-11 px-6 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-sm shrink-0"
+                data-cursor="RESUME"
+                aria-label="View Sahil Mansuri's verified resume on page"
+              >
+                <span>View On Page →</span>
+              </a>
+
+              {onOpenResumeModal && (
+                <button
+                  type="button"
+                  onClick={onOpenResumeModal}
+                  className="group relative inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 border border-[rgba(17,17,16,0.12)] bg-white text-[#5a5a62] hover:border-[#173753] hover:text-[#173753] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#173753] focus-visible:ring-offset-2 h-11 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-sm shrink-0"
+                  data-cursor="MODAL"
+                  aria-label="Open Sahil Mansuri's resume popup modal"
+                >
+                  <span>Modal View</span>
+                </button>
+              )}
+            </div>
           </div>
         </Reveal>
 

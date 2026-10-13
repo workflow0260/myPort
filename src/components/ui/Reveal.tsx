@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { motion, useReducedMotion } from "motion/react";
 
 interface RevealProps {
   children: React.ReactNode;
@@ -15,68 +16,51 @@ export const Reveal: React.FC<RevealProps> = ({
   className = "",
   direction = "up",
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mediaQuery.matches) {
-      const timeoutId = setTimeout(() => setIsVisible(true), 0);
-      return () => clearTimeout(timeoutId);
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
-      }
-    );
-
-    const el = ref.current;
-    if (el) {
-      observer.observe(el);
-    }
-
-    return () => {
-      if (el) observer.unobserve(el);
-      observer.disconnect();
-    };
-  }, []);
-
-  const getTransform = () => {
-    if (isVisible) return "translate3d(0, 0, 0)";
+  const getInitial = () => {
+    if (prefersReducedMotion || direction === "none") return { opacity: 0 };
     switch (direction) {
       case "up":
-        return "translate3d(0, 24px, 0)";
+        return { opacity: 0, y: 20, filter: "blur(4px)" };
       case "down":
-        return "translate3d(0, -24px, 0)";
+        return { opacity: 0, y: -20, filter: "blur(4px)" };
       case "left":
-        return "translate3d(24px, 0, 0)";
+        return { opacity: 0, x: 20, filter: "blur(4px)" };
       case "right":
-        return "translate3d(-24px, 0, 0)";
+        return { opacity: 0, x: -20, filter: "blur(4px)" };
       default:
-        return "none";
+        return { opacity: 0 };
+    }
+  };
+
+  const getAnimate = () => {
+    if (prefersReducedMotion || direction === "none") return { opacity: 1 };
+    switch (direction) {
+      case "up":
+      case "down":
+        return { opacity: 1, y: 0, filter: "blur(0px)" };
+      case "left":
+      case "right":
+        return { opacity: 1, x: 0, filter: "blur(0px)" };
+      default:
+        return { opacity: 1 };
     }
   };
 
   return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${className}`}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: getTransform(),
-        filter: isVisible ? "blur(0px)" : "blur(4px)",
-        transitionDelay: `${delay}s`,
+    <motion.div
+      initial={getInitial()}
+      whileInView={getAnimate()}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{
+        duration: 0.6,
+        delay,
+        ease: [0.16, 1, 0.3, 1],
       }}
+      className={`will-change-transform ${className}`}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };

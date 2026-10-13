@@ -1,29 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { motion, useScroll, useSpring } from "motion/react";
 
 export const ScrollProgress: React.FC = () => {
-  const [scrollPercentage, setScrollPercentage] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const currentProgress = (window.scrollY / totalHeight) * 100;
-        setScrollPercentage(Math.min(100, Math.max(0, currentProgress)));
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none bg-transparent">
-      <div
-        className="h-full bg-[#173753] transition-all duration-75 ease-out"
-        style={{ width: `${scrollPercentage}%` }}
-      />
-    </div>
+    <motion.div
+      aria-hidden="true"
+      className="fixed top-0 left-0 right-0 h-[2.5px] z-50 pointer-events-none bg-[#173753] origin-left will-change-transform shadow-[0_1px_3px_rgba(23,55,83,0.3)]"
+      style={{ scaleX }}
+    />
   );
 };

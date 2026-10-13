@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { ArrowDown, FileText, Activity, Check } from "lucide-react";
+import { motion } from "motion/react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -9,9 +10,8 @@ interface HeroSectionProps {
   onOpenResumeModal: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) => {
-  const { metrics } = PORTFOLIO_DATA;
-  const [copiedCoords, setCopiedCoords] = useState(false);
+// Isolated ticking clock component to prevent parent HeroSection re-renders every second (rerender-memo)
+const LiveClock = memo(function LiveClock() {
   const [timeStr, setTimeStr] = useState("");
 
   useEffect(() => {
@@ -32,6 +32,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
     return () => clearInterval(interval);
   }, []);
 
+  return <span className="text-[#173753] font-semibold">{timeStr}</span>;
+});
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) => {
+  const { metrics } = PORTFOLIO_DATA;
+  const [copiedCoords, setCopiedCoords] = useState(false);
+
   const copyCoords = () => {
     navigator.clipboard.writeText("26.9124° N, 75.7873° E (Jaipur, Rajasthan)");
     setCopiedCoords(true);
@@ -42,9 +49,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
     <section
       id="hero"
       aria-label="Introduction & Overview"
-      className="relative w-full pt-28 sm:pt-36 pb-20 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)]"
+      className="relative w-full pt-20 sm:pt-28 md:pt-36 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-8 md:px-12 border-b border-[rgba(17,17,16,0.08)] bg-transparent"
     >
-      <div className="max-w-[1200px] mx-auto space-y-10">
+      <div className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 md:space-y-10">
         {/* Developer Telemetry / Status Ribbon */}
         <Reveal delay={0.05}>
           <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-[#8b8b94] font-mono border-b border-[rgba(17,17,16,0.06)] pb-4">
@@ -68,7 +75,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
             <div className="flex items-center gap-3">
               <span className="hidden sm:inline">LOCATION: JAIPUR, IN</span>
               <span aria-hidden="true">•</span>
-              <span className="text-[#173753] font-semibold">{timeStr}</span>
+              <LiveClock />
             </div>
           </div>
         </Reveal>
@@ -97,7 +104,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
 
           <Reveal delay={0.2}>
             <p className="text-base sm:text-xl text-[#5a5a62] leading-relaxed max-w-2xl pt-2">
-              Flutter Developer in Jaipur with 1+ year of hands-on experience building and maintaining production mobile applications for iOS and Android. Strong in Dart, Kotlin, Jetpack Compose, Bloc/Cubit, Firebase, REST APIs, and Clean Architecture.
+              Mobile App Developer in Jaipur with 1 year 10 months of hands-on experience designing, building, and maintaining production mobile applications for iOS and Android. Strong in Dart, Flutter, Kotlin, Jetpack Compose, Bloc/Cubit, Firebase, REST APIs, and Clean Architecture.
             </p>
           </Reveal>
         </div>
@@ -105,33 +112,54 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
         {/* Primary Action Buttons */}
         <Reveal delay={0.25}>
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            <a
+            <motion.a
               href="#work"
-              className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 bg-[#173753] text-white shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_4px_12px_-4px_rgba(23,55,83,0.4)] hover:bg-[#0f2538] hover:-translate-y-0.5 h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-colors bg-[#173753] text-white shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_4px_12px_-4px_rgba(23,55,83,0.4)] hover:bg-[#0f2538] h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer"
               data-cursor="WORK"
               aria-label="View selected Flutter mobile app projects"
             >
               <span>Selected Work</span>
               <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" aria-hidden="true" />
-            </a>
+            </motion.a>
 
-            <button
-              onClick={onOpenResumeModal}
-              className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 border border-[rgba(17,17,16,0.12)] bg-white text-[#111110] hover:border-[#173753] hover:text-[#173753] hover:-translate-y-0.5 h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-sm"
+            <motion.a
+              href="#resume"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium transition-colors border border-[rgba(17,17,16,0.12)] bg-white text-[#111110] hover:border-[#173753] hover:text-[#173753] h-10 px-5 text-xs font-mono tracking-wider uppercase cursor-pointer shadow-sm"
               data-cursor="RESUME"
-              aria-label="Open verified resume modal"
+              aria-label="View Sahil Mansuri's verified resume"
             >
               <FileText className="w-3.5 h-3.5 text-[#173753]" aria-hidden="true" />
               <span>View Resume</span>
-            </button>
+            </motion.a>
+
+            {onOpenResumeModal && (
+              <motion.button
+                type="button"
+                onClick={onOpenResumeModal}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="hidden sm:inline-flex select-none items-center justify-center gap-1.5 rounded-full text-xs font-mono text-[#5a5a62] hover:text-[#173753] px-3.5 py-2 cursor-pointer hover:bg-[#173753]/5 transition-colors"
+                title="Open popup preview"
+                aria-label="Open resume modal"
+              >
+                <span>Modal View</span>
+              </motion.button>
+            )}
           </div>
         </Reveal>
 
-        {/* Snowbros-style Engineered Metric & Focus Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-8">
+        {/* Engineered Metric & Focus Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 md:gap-5 pt-4 sm:pt-6 md:pt-8">
           {/* Card 1: 1M+ Downloads */}
           <Reveal delay={0.3}>
-            <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
+            <motion.div
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-6 md:p-7 flex flex-col justify-between space-y-3.5 sm:space-y-4 h-full"
+            >
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="status-dot animate-pulse" aria-hidden="true" />
@@ -152,12 +180,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                   Vedic astrology mobile app featuring Janam Kundli, live spiritual streaming, and horoscope predictions scaled to over 1M+ downloads on Google Play.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </Reveal>
 
           {/* Card 2: Experience at Appic Software */}
           <Reveal delay={0.35}>
-            <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
+            <motion.div
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-6 md:p-7 flex flex-col justify-between space-y-3.5 sm:space-y-4 h-full"
+            >
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="status-dot" aria-hidden="true" />
@@ -178,12 +209,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                   Developing and maintaining production Flutter applications with responsive UI, performance, Bloc state management, and Clean Architecture.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </Reveal>
 
           {/* Card 3: Architecture & Flow */}
           <Reveal delay={0.4}>
-            <div className="card-engineered rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-4 h-full hover:scale-[1.01] transition-transform">
+            <motion.div
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-6 md:p-7 flex flex-col justify-between space-y-3.5 sm:space-y-4 h-full"
+            >
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="status-dot" aria-hidden="true" />
@@ -201,7 +235,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResumeModal }) =
                   Predictable reactive flows with Bloc/Cubit, Firebase, Supabase, REST APIs, WebSockets, and unit/widget testing.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </Reveal>
         </div>
       </div>

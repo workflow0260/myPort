@@ -9,6 +9,7 @@ export interface Project {
   features: string[];
   technologies: string[];
   liveUrl?: string;
+  playStoreUrl?: string;
   statusText?: string;
 }
 
@@ -26,6 +27,7 @@ export interface PortfolioData {
     name: string;
     title: string;
     headline: string;
+    experienceYears: string;
     location: string;
     email: string;
     phone: string;
@@ -42,6 +44,7 @@ export interface PortfolioData {
     primaryFocus: string[];
     accentColor: string;
     status: string;
+    resumePdfUrl: string;
   };
   metrics: {
     label: string;
@@ -49,6 +52,7 @@ export interface PortfolioData {
     sublabel: string;
     project: string;
   };
+  keyCompetencies: string[];
   projects: Project[];
   experience: ExperienceItem[];
   stack: {
@@ -59,6 +63,8 @@ export interface PortfolioData {
     testing: string[];
     tools: string[];
   };
+  additionalKnowledge: string[];
+  toolsAndWorkflow: string[];
   engineeringNotebook: {
     topic: string;
     subtitle: string;
@@ -72,9 +78,10 @@ export const PORTFOLIO_DATA: PortfolioData = {
     name: "Sahil Mansuri",
     title: "MOBILE APP DEVELOPER",
     headline: "FLUTTER · KOTLIN · JETPACK COMPOSE",
+    experienceYears: "1 Year 10 Months",
     location: "Jaipur, Rajasthan",
     email: "sahilmansuri2010@gmail.com",
-    phone: "+91 88900 29227",
+    phone: "8890029227",
     phoneRaw: "+918890029227",
     github: "https://github.com/sahil8822",
     githubHandle: "github.com/sahil8822",
@@ -85,17 +92,18 @@ export const PORTFOLIO_DATA: PortfolioData = {
     instagram: "https://www.instagram.com/light_dark_0123/?hl=en",
     instagramHandle: "instagram.com/light_dark_0123",
     summary:
-      "I am a Mobile App Developer with 1+ year of hands-on experience building and maintaining production Flutter applications for iOS and Android. Delivered production mobile applications, including an astrology product with 1M+ Google Play downloads. Strong in Dart, Flutter, Kotlin, Jetpack Compose, Bloc/Cubit, Clean Architecture, Firebase, Supabase, REST APIs, and real-time data flows. Comfortable taking features from UI implementation through integration, testing, and release support.",
+      "Mobile App Developer with 1 year 10 months of hands-on experience designing, building, and maintaining production Flutter applications for iOS and Android. Experienced in taking features from UI implementation through API integration, state management, testing, debugging, release support, and post-release improvements. Delivered production mobile applications, including an astrology product with 1M+ Google Play downloads. Strong in Dart, Flutter, Kotlin, Jetpack Compose, Bloc/Cubit, Clean Architecture, Firebase, Supabase, REST APIs, JSON, WebSockets, and real-time data flows. Focused on responsive interfaces, maintainable code, performance, and reliable user experiences.",
     primaryFocus: [
       "Flutter & Dart",
       "Mobile Applications (iOS & Android)",
-      "Production UI & Responsive Layouts",
+      "Responsive UI Development",
       "API Integration & WebSockets",
       "Real-Time Data Flows",
-      "Clean Architecture & State Management",
+      "Clean Architecture & Bloc/Cubit",
     ],
     accentColor: "#173753",
     status: "AVAILABLE FOR OPPORTUNITIES",
+    resumePdfUrl: "/sahil_resume.pdf",
   },
 
   metrics: {
@@ -105,21 +113,38 @@ export const PORTFOLIO_DATA: PortfolioData = {
     project: "BALAJI ASTRO GUIDE",
   },
 
+  keyCompetencies: [
+    "Flutter and Dart",
+    "Kotlin and Jetpack Compose",
+    "Responsive UI development",
+    "Clean Architecture",
+    "Bloc / Cubit state management",
+    "Firebase and Supabase",
+    "REST APIs and JSON",
+    "WebSockets and real-time data",
+    "Unit, widget and integration testing",
+    "Performance optimization",
+    "Debugging and release support",
+    "Git / GitHub collaboration",
+  ],
+
   projects: [
     {
       slug: "balaji-astro-guide",
       number: "01",
       title: "BALAJI ASTRO GUIDE",
-      tagline: "Vedic astrology platform reaching 1M+ downloads on Google Play.",
+      tagline: "Vedic astrology app featuring free Janam Kundli, Pooja services, and astrology chat.",
       category: "Astrology",
       downloads: "1M+ DOWNLOADS",
+      playStoreUrl: "https://play.google.com/store/search?q=Balaji+Astro+Guide&c=apps",
       overview:
-        "Comprehensive Vedic astrology mobile application engineered with Flutter, featuring real-time astrology consultations, automated chart calculations, and high-concurrency horoscope delivery to over 1,000,000+ active users on Google Play.",
+        "Vedic astrology app featuring free Janam Kundli, Pooja services, horoscope predictions, astrology chat, and user-focused spiritual guidance. Reached 1M+ downloads on Google Play.",
       features: [
         "Free Janam Kundli generation with precise astrological calculations",
-        "E-Pooja scheduling and live spiritual streaming",
-        "Daily, weekly, and monthly personalized horoscope predictions",
-        "Real-time astrology chat and consultation services",
+        "Pooja services scheduling and spiritual guidance",
+        "Personalized daily, weekly, and monthly horoscope predictions",
+        "Real-time astrology consultation chat and live stream flows",
+        "High-performance architecture scaled to 1,000,000+ Google Play downloads",
       ],
       technologies: ["Flutter", "Dart", "Bloc/Cubit", "Firebase", "REST APIs", "WebSockets"],
       statusText: "1M+ Google Play Downloads • Production",
@@ -130,15 +155,14 @@ export const PORTFOLIO_DATA: PortfolioData = {
       title: "SICFIT",
       tagline: "PERSONAL FITNESS COMPANION",
       category: "Fitness",
+      playStoreUrl: "https://play.google.com/store/search?q=Sicfit&c=apps",
       overview:
-        "Modern personal fitness companion application designed for custom workout tracking, real-time telemetry, nutritional monitoring, and live coaching interactivity.",
+        "Personal fitness companion for workouts, progress, and health. Supports custom workout routines, nutrition logging, live coaching sessions, progress tracking, and a more consistent fitness journey.",
       features: [
-        "Interactive workouts & exercise guide routines",
-        "Multi-metric progress tracking and body composition analytics",
-        "Custom workout routine builder and timer engines",
-        "Nutrition logging with caloric and macronutrient targets",
+        "Custom workout routines and interactive exercise guides",
+        "Nutrition logging with daily calorie and macronutrient targets",
         "Live coaching sessions and interactive training schedules",
-        "Real-time workout progress tracking and telemetry",
+        "Comprehensive workout progress tracking and health metrics",
       ],
       technologies: ["Flutter", "Dart", "Clean Architecture", "REST APIs", "Supabase"],
       statusText: "Live Application • Personal Fitness",
@@ -149,14 +173,14 @@ export const PORTFOLIO_DATA: PortfolioData = {
       title: "HAPPIEST TEAM",
       tagline: "COMMUNITY PLATFORM",
       category: "Community",
+      playStoreUrl: "https://play.google.com/store/search?q=Happiest+Team&c=apps",
       overview:
-        "Collaborative community platform crafted for member engagement, group orchestration, communication channels, and scalable community reach expansion.",
+        "Community platform for building, managing, and growing communities. Includes member engagement features and tools that help communities organize activity, strengthen participation, and expand their reach.",
       features: [
-        "Building digital communities with custom branding & rules",
-        "Managing member directories and role-based permissions",
-        "Growing community channels and discovery directories",
-        "High-engagement feeds, discussions, and event broadcast",
-        "Expanded community reach analytics and member insights",
+        "Building, managing, and scaling modern digital communities",
+        "Member engagement features and group activity coordination",
+        "Discussion boards, event streams, and real-time announcements",
+        "Community analytics and tools to expand member reach",
       ],
       technologies: ["Flutter", "Dart", "Bloc", "Firebase", "Real-Time Sync", "REST APIs"],
       statusText: "Live Application • Community Management",
@@ -170,11 +194,9 @@ export const PORTFOLIO_DATA: PortfolioData = {
       company: "APPIC SOFTWARE LLP",
       location: "Jaipur, Rajasthan",
       responsibilities: [
-        "Develop and maintain production mobile applications using Flutter, with a focus on responsive UI, performance, scalability, and reliable iOS and Android releases.",
-        "Apply Clean Architecture and MVC, MVP, and MVVM patterns to keep production code maintainable, testable, and easy to extend.",
+        "Develop and maintain responsive production mobile applications using Flutter, with a focus on performance, scalability, and reliable iOS and Android releases. Apply Clean Architecture and MVC, MVP, and MVVM patterns to keep production code maintainable, testable, and easy to extend.",
         "Build predictable application flows with Bloc/Cubit and integrate Firebase and Supabase for authentication, storage, and real-time data.",
-        "Integrate REST APIs and JSON-based services; work with real-time communication concepts including WebSockets.",
-        "Apply unit testing, widget testing, and integration testing practices to improve feature reliability and maintainability.",
+        "Integrate REST APIs and JSON-based services, including WebSockets. Apply unit, widget, and integration testing practices to improve reliability and maintainability.",
         "Use Git/GitHub, VS Code, Android Studio, and Xcode to support collaborative development, debugging, and release workflows.",
       ],
       technologies: [
@@ -202,6 +224,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
       "JETPACK COMPOSE",
       "BLOC",
       "CUBIT",
+      "CLEAN ARCHITECTURE",
       "FIREBASE",
       "SUPABASE",
       "REST APIs",
@@ -226,8 +249,8 @@ export const PORTFOLIO_DATA: PortfolioData = {
     additional: [
       "PYTHON",
       "NEXT.JS FUNDAMENTALS",
-      "REAL-TIME DATA SYNCHRONIZATION",
       "API INTEGRATION",
+      "REAL-TIME DATA SYNCHRONIZATION",
     ],
     testing: [
       "UNIT TESTING",
@@ -245,6 +268,23 @@ export const PORTFOLIO_DATA: PortfolioData = {
     ],
   },
 
+  additionalKnowledge: [
+    "Python",
+    "Next.js fundamentals",
+    "API integration",
+    "real-time data synchronization",
+  ],
+
+  toolsAndWorkflow: [
+    "Git/GitHub",
+    "VS Code",
+    "Android Studio",
+    "Xcode",
+    "Codex",
+    "Gemini",
+    "Claude Code",
+  ],
+
   engineeringNotebook: [
     {
       topic: "01 // ARCHITECTURAL SEPARATION",
@@ -252,7 +292,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
       points: [
         "Clear boundary separation between Presentation (Flutter/Compose), Domain (UseCases/Entities), and Data (Repositories/DataSources).",
         "Strict dependency inversion ensuring presentation logic never couples directly with network clients or database drivers.",
-        "Modular folder hierarchies that scale effortlessly across complex multi-feature enterprise codebases.",
+        "Modular folder hierarchies applying MVC, MVP, and MVVM patterns to keep production code maintainable and testable.",
       ],
     },
     {
@@ -269,7 +309,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
       subtitle: "REST APIs, WebSockets & Real-Time Sync",
       points: [
         "Structured interceptors with automatic token refresh, connection timeout handling, and graceful offline degradation.",
-        "Real-time event streaming over WebSockets and Firebase Firestore for instant client synchronization.",
+        "Real-time event streaming over WebSockets, Firebase, and Supabase for instant client synchronization.",
         "Robust JSON serialization/deserialization with defensive null-safety guarantees.",
       ],
     },
@@ -279,17 +319,17 @@ export const PORTFOLIO_DATA: PortfolioData = {
       points: [
         "Unit tests covering repository parsing, business logic state changes, and calculation algorithms.",
         "Widget tests verifying layout reactivity, user gesture handling, and navigation triggers.",
-        "End-to-end integration flows simulating real-world production user scenarios.",
+        "Debugging and release support ensuring rock-solid production iOS and Android store deployments.",
       ],
     },
   ],
 
   coreStrengths: [
     "FEATURE OWNERSHIP",
-    "RESPONSIVE UI DEVELOPMENT",
-    "API INTEGRATION",
-    "PERFORMANCE OPTIMIZATION",
-    "DEBUGGING",
     "COLLABORATIVE DELIVERY",
+    "API INTEGRATION",
+    "DEBUGGING",
+    "PERFORMANCE OPTIMIZATION",
+    "RESPONSIVE UI DEVELOPMENT",
   ],
 };

@@ -106,14 +106,14 @@ export default function RootLayout({
         "@type": "Person",
         "@id": `${siteUrl}/#person`,
         name: "Sahil Mansuri",
-        jobTitle: "Flutter Developer",
+        jobTitle: "Mobile App Developer",
         url: siteUrl,
         mainEntityOfPage: siteUrl,
         image: `${siteUrl}/og-image.png`,
         email: "mailto:sahilmansuri2010@gmail.com",
         telephone: "+918890029227",
         description:
-          "Sahil Mansuri is a Flutter Developer in Jaipur specializing in Flutter, Dart, Kotlin, Jetpack Compose, Firebase, REST APIs and production mobile apps.",
+          "Sahil Mansuri is a Mobile App Developer with 1 year 10 months of hands-on experience in Flutter, Dart, Kotlin, Jetpack Compose, Firebase, REST APIs, and 1M+ downloads production mobile apps.",
         address: {
           "@type": "PostalAddress",
           addressLocality: "Jaipur",
@@ -127,7 +127,7 @@ export default function RootLayout({
         },
         hasOccupation: {
           "@type": "Occupation",
-          name: "Flutter Developer",
+          name: "Mobile App Developer",
           occupationLocation: {
             "@type": "City",
             name: "Jaipur",

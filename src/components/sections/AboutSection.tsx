@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "motion/react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -11,14 +12,14 @@ export const AboutSection: React.FC = () => {
     <section
       id="about"
       aria-label="About Sahil Mansuri"
-      className="w-full py-24 px-6 sm:px-12 border-b border-[rgba(17,17,16,0.08)] bg-[var(--bg-background)]"
+      className="w-full py-12 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 border-b border-[rgba(17,17,16,0.08)] bg-transparent"
     >
-      <div className="max-w-[1200px] mx-auto space-y-12">
+      <div className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 md:space-y-12">
         {/* Section Header */}
         <Reveal>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[rgba(17,17,16,0.08)] pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 border-b border-[rgba(17,17,16,0.08)] pb-5 sm:pb-8">
             <div>
-              <p className="eyebrow mb-3">{"// 05 • ABOUT THE ENGINEER"}</p>
+              <p className="eyebrow mb-2">Background &amp; Philosophy</p>
               <h2 className="text-3xl sm:text-5xl font-display font-normal text-[#111110] leading-tight">
                 Engineering software that{" "}
                 <span className="text-[#173753] font-medium">delivers impact.</span>
@@ -32,11 +33,14 @@ export const AboutSection: React.FC = () => {
         </Reveal>
 
         {/* Narrative & Strengths Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 md:gap-8 items-start">
           {/* Main Narrative Card */}
           <div className="lg:col-span-7">
             <Reveal delay={0.1}>
-              <div className="card-engineered rounded-2xl p-8 sm:p-10 space-y-6">
+              <motion.div
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-7 md:p-10 space-y-4 sm:space-y-6"
+              >
                 <div className="flex items-center gap-2 text-xs">
                   <span className="status-dot" aria-hidden="true" />
                   <span className="font-mono text-[#173753] font-semibold">
@@ -65,14 +69,17 @@ export const AboutSection: React.FC = () => {
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           </div>
 
           {/* Core Strengths Card */}
           <div className="lg:col-span-5">
-            <Reveal delay={0.2}>
-              <div className="card-engineered rounded-2xl p-8 space-y-5">
+            <Reveal delay={0.18}>
+              <motion.div
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="card-engineered rounded-xl sm:rounded-2xl p-4.5 sm:p-7 md:p-8 space-y-4 sm:space-y-5"
+              >
                 <div className="flex items-center gap-2 text-xs">
                   <span className="status-dot" aria-hidden="true" />
                   <h3 className="font-mono text-[#173753] font-semibold text-xs uppercase">
@@ -91,7 +98,7 @@ export const AboutSection: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           </div>
         </div>
